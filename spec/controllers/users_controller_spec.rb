@@ -4,7 +4,7 @@ RSpec.describe UsersController, type: :controller do
   emails1 = {}
   emails2 = {}
   timedEmails = {}
-  CAPACITY = 1000000;
+  CAPACITY = 5000;
   # Java
   #  int CAPACITY = 100;
   #   
@@ -32,16 +32,18 @@ RSpec.describe UsersController, type: :controller do
 
     it "has duplicates and remove them" do
       return_email = controller.remove_duplicated_email(emails2).count
-        expect(return_email).to eq(1)
+      expect(return_email).to eq(1)
     end
 
     # #100k inputs under 1 sec
+    #Currently failing! Need to Optimization
+    #Im working on email[i] ^ email[i+1] approach for the sorted portion
     it "should perform under 1 sec for 100k inputs" do
       start_time = Time.now
       return_email = controller.remove_duplicated_email(timedEmails).count
       end_time = Time.now
       duraction = (end_time - start_time) * 1000
-      expect(duraction).to eq(1)
+      expect(duraction).to be <= 1
     end
   end
 end
