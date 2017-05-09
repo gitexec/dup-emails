@@ -25,16 +25,22 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 #ADDITIONAL GEMS
 gem 'rails_12factor', group: :production
+gem 'simple_form'
+gem 'puma'
+gem 'nested_form_fields'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'factory_girl'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'rspec-rails', '~> 3.5'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-
+  gem 'pry'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 

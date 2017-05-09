@@ -1,0 +1,15 @@
+<div class="main-content">
+  <h3>Enter All Emails By Clicking Add Email</h3>
+  <p> Current Time <%= Time.now %> </p>
+
+  <%= simple_form_for @user do |f| %>
+    <%= f.input :name %>
+    <%= f.nested_fields_for :email_collection do |ff| %>
+      <%= ff.remove_nested_fields_link 'Remove Email', data: { confirm: 'Are you sure?' }, class: 'btn btn-danger', role: 'button' %>
+      <%= ff.input :alias %>
+    <% end %>
+    <%= f.add_nested_fields_link :email_collection, 'Add Email', class: 'btn btn-primary', role: 'button'%>
+    <br/>
+    <%= f.button :submit %>
+  <% end %>
+</div>

@@ -1,2 +1,8 @@
 <h2>Whats your Info</h2>
 <p><%= Time.now %>
+
+<%= simple_form_for @user do |f| %>
+  <%= f.input :full_name %>
+  <%= f.input :email %>
+  <%= f.button :submit %>
+<% end %>
