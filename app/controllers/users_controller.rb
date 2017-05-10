@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     if emails.blank?
       return
     end
-    if emails.values.count == 1
+    if emails.values.count <= 1
       return
     end
      # Java:
@@ -54,12 +54,10 @@ class UsersController < ApplicationController
     iterator = 0
     email_id = 0
     #working on the optimization solution
-    emails_sorted = emails.values
+    emails_sorted = merge_sort emails.values
     while iterator < emails_sorted.size do
-      unless noDupsEmails.has_value? emails_sorted[iterator]
-        noDupsEmails[email_id.to_s] = emails_sorted[iterator]
-        email_id += 1
-      end
+      noDupsEmails[email_id.to_s] = emails_sorted[iterator]
+      email_id += 1
       #optimization
       if emails_sorted[iterator] == emails_sorted[iterator+1]
         iterator += 2
@@ -69,47 +67,46 @@ class UsersController < ApplicationController
     end
     noDupsEmails
   end
+  #TODO: improve memory uses
+  def merge_sort emails
+    if emails.size <= 1
+      return emails
+    end
+    merging_sort(emails,0,emails.size-1)
+  end
 
+  def merging_sort emails, lo, hi
+    if lo == hi
+      return [emails[lo]]
+    end
+    #TODO: lo + (hi - lo)/2
+    middle = (hi + lo)/2
+    sort1 = merging_sort emails, lo, middle
+    sort2 = merging_sort emails, middle + 1, hi
+    merge sort1, sort2
+  end
+
+  def merge(sort1, sort2)
+    index1 = 0
+    index2 = 0
+    result = []
+    while index1 < sort1.size && index2 < sort2.length
+      if sort1[index1] < sort2[index2]
+        result[index1 + index2] = sort1[index1]
+        index1 += 1
+      else
+        result[index1 + index2] = sort2[index2]
+        index2 += 1
+      end
+    end
+    while index1 < sort1.size
+      result[index1 + index2] = sort1[index1]
+      index1 += 1
+    end
+    while index2 < sort2.size
+      result[index1 + index2] = sort2[index2]
+      index2 += 1
+    end
+    result
+  end
 end
-
-#optimization
-# def quick_sort emails
-#     return emails.length 
-# quick_sort array
-#  rurn if emty
-#  quick_sort array, 0, array.size
-# end
-
-# quick_sort array, lo, hi
-#   if lo > hi
-#     return
-#   end
-
-#   partition = partition array lo, hi
-#   quick_sort array lo, partition - 1
-#   quick_sort array partition + 1, hi
-#   return
-# end
-
-# partition array, lo, hi
-#   i = lo;
-#   j = hi;
-#   pivot = array[lo]
-
-#   while true
-#     while array[i] < pivot
-#       i += 1
-#       if i == hi 
-#         break
-#       end
-#     end
-#     while array[j] > pivot && j > lo
-#       j += 1
-#     end
-
-#     swap array lo, hi
-#     if lo >= hi 
-#       break
-# end
-
-

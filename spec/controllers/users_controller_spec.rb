@@ -4,7 +4,7 @@ RSpec.describe UsersController, type: :controller do
   emails1 = {}
   emails2 = {}
   timedEmails = {}
-  CAPACITY = 5000;
+  CAPACITY = 100000;
   # Java
   #  int CAPACITY = 100;
   #   
@@ -15,7 +15,8 @@ RSpec.describe UsersController, type: :controller do
   #       }
   #INITIALIZE test variables
   CAPACITY.times do |index|
-    timedEmails[index.to_s] = "test#{index.to_s}@email.com" 
+    rnd = Random.rand(CAPACITY)
+    timedEmails[index.to_s] = "test#{rnd.to_s}@email.com" 
   end
   emails1 = {"0"=>{"alias"=>"test1@email.com"},
             "1"=>{"alias"=>"test2@email.com"},
@@ -42,7 +43,7 @@ RSpec.describe UsersController, type: :controller do
       start_time = Time.now
       return_email = controller.remove_duplicated_email(timedEmails).count
       end_time = Time.now
-      duraction = (end_time - start_time) * 1000
+      duraction = (end_time - start_time)
       expect(duraction).to be <= 1
     end
   end
